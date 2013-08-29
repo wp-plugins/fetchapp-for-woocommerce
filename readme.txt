@@ -15,10 +15,10 @@ This plugin provides integration between FetchApp and WooCommerce.
 This plugin provides integration between FetchApp and WooCommerce.
 
 Features:
-* Pull products and orders from FetchApp into WooCommerce
-* Push products and orders from WooCommerce up to FetchApp
-* Automatic synchronization of new orders placed through your store, including the email of product download links
-* Period synchronization using a scheduled WordPress task.
+1. Pull products and orders from FetchApp into WooCommerce
+1. Push products and orders from WooCommerce up to FetchApp
+1. Automatic synchronization of new orders placed through your store, including the email of product download links
+1. Period synchronization using a scheduled WordPress task.
 
 == Installation ==
 
