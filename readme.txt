@@ -4,7 +4,7 @@ Donate link: http://www.prcapps.com/
 Tags: fetchapp,woocommerce
 Requires at least: 3.6
 Tested up to: 3.6
-Stable tag: trunk
+Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,7 +19,7 @@ This plugin provides integration between FetchApp and WooCommerce.
 <li>Pull products and orders from FetchApp into WooCommerce</li>
 <li>Push products and orders from WooCommerce up to FetchApp</li>
 <li>Automatic synchronization of new orders placed through your store, including the email of product download links</li>
-<li>Period synchronization using a scheduled WordPress task.</li>
+<li>Periodic synchronization using a scheduled WordPress task.</li>
 </ul>
 
 == Installation ==
