@@ -8,21 +8,23 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-This plugin integrates FetchApp with WooCommerce.
+This plugin provides integration between FetchApp and WooCommerce.
 
 == Description ==
 
-This plugin integrates FetchApp with WooCommerce.
+This plugin provides integration between FetchApp and WooCommerce.
+
+Features:
+- Pull products and orders from FetchApp into WooCommerce
+- Push products and orders from WooCommerce up to FetchApp
+- Automatic synchronization of new orders placed through your store, including the email of product download links
+- Period synchronization using a scheduled WordPress task.
 
 == Installation ==
 
-This section describes how to install the plugin and get it working.
-
-e.g.
-
-1. Upload `plugin-name.php` to the `/wp-content/plugins/` directory
-1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Place `<?php do_action('plugin_name_hook'); ?>` in your templates
+1. Install the plugin.
+2. Select the FetchApp section of the administrative panel, and enter your FetchApp API token and key
+3. Synchronize your products by click the "Synchronize Products" or "Synchronize Orders" buttons
 
 == Frequently Asked Questions ==
 
