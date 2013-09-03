@@ -30,10 +30,16 @@ This plugin provides integration between FetchApp and WooCommerce.
 
 == Changelog ==
 
+= 1.0.1 =
+* Fixed bug that caused Appearance menu to disappear. 
+
 = 1.0 =
-* Inital Release
+* Initial Release
 
 == Upgrade Notice ==
+
+= 1.0.1 =
+* Fixed bug that caused Appearance menu to disappear. 
 
 = 1.0 =
 * Inital Release
