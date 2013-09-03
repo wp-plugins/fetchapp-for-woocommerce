@@ -200,7 +200,7 @@ if ( ! class_exists( 'WP_FetchAppBase' ) ) :
 
 		/* Admin Screen Functions */
 		public function register_fetchapp_menu_page(){
-		    add_menu_page( 'FetchApp Settings', 'FetchApp', 'manage_options', 'fetchapp_wc_settings', array($this, 'fetchapp_wc_settings_page'), plugins_url( 'fetchapp/images/logo.png' ), 60 ); 
+		    add_menu_page( 'FetchApp Settings', 'FetchApp', 'manage_options', 'fetchapp_wc_settings', array($this, 'fetchapp_wc_settings_page'), plugins_url( 'fetchapp/images/logo.png' ), 58 ); 
 		}
 
 		public function fetchapp_wc_settings_page(){			
