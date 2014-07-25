@@ -30,7 +30,7 @@ This plugin provides integration between FetchApp and WooCommerce.
 
 == Changelog ==
 
-= 1.1.0 =
+= 1.0.4 =
 * We have made significant enhancements to the plugin to improve plugin stability and functionality. 
 * Bug Fixes:
 1. FetchApp emails should now be sending properly. We revised the WooCommerce hooks used for synchorization, and revised the default configuration for imported Products. 
