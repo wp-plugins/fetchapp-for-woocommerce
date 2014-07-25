@@ -25,7 +25,7 @@ if ( ! class_exists( 'WP_FetchAppBase' ) ) :
 	class WP_FetchAppBase {
 
 		public function __construct(){
-			$this->debug = true;
+			$this->debug = false;
 			$this->scheduled_sync = false;
 			$this->fetchapp_send_incomplete_orders = false;
 
@@ -49,18 +49,29 @@ if ( ! class_exists( 'WP_FetchAppBase' ) ) :
 
 			if ( get_option( 'fetchapp_debug_mode' ) ):
 				$debug_option = get_option( 'fetchapp_debug_mode' );
-				$this->debug = $debug_option['text_string'];
+
+				if(isset($debug_option)):
+					$this->debug = $debug_option;
+				endif;
 			endif;
 
+			
 			if ( get_option( 'fetchapp_scheduled_sync' ) ):
 				$fetchapp_scheduled_sync_option = get_option( 'fetchapp_scheduled_sync' );
-				$this->scheduled_sync = $fetchapp_scheduled_sync_option['text_string'];
+				if(isset($fetchapp_scheduled_sync_option)):
+					$this->scheduled_sync = $fetchapp_scheduled_sync_option;
+				endif;
 			endif;
 
 			if ( get_option( 'fetchapp_send_incomplete_orders' ) ):
 				$fetchapp_send_incomplete_orders_option = get_option( 'fetchapp_send_incomplete_orders' );
-				$this->fetchapp_send_incomplete_orders = $fetchapp_send_incomplete_orders_option['text_string'];
+				$this->fetchapp_send_incomplete_orders = $fetchapp_send_incomplete_orders_option;
 			endif;
+
+			// var_dump("Debug: ".($this->debug));
+			// var_dump("Sync: ".($this->scheduled_sync));
+			// var_dump("Inc: ".($this->fetchapp_send_incomplete_orders));
+
 
 			$this->fetchApp = new FetchApp\API\FetchApp();
 
@@ -134,10 +145,28 @@ if ( ! class_exists( 'WP_FetchAppBase' ) ) :
 
 			foreach($wc_orders as $order):
 				/* Push to Fetch */
-				$this->pushOrderToFetch($order);
-			endforeach;
+				$order_id = $order->ID;
 
-			
+				if(! $this->fetchapp_send_incomplete_orders): /* If we don't send incomplete orders */
+					
+					$post_status_term_array = wp_get_post_terms( $order_id, 'shop_order_status'); /* Check the term relationship for order status */
+					$post_status_term = array_pop($post_status_term_array);
+
+					if($post_status_term && $post_status_term->name != 'completed'): /* If it's not completed, don't send it, so return */
+						continue;
+					else:
+						$this->pushOrderToFetch($order, false); /* And send an email */
+
+						/* But then set that this order is in sync */
+						update_post_meta( $order_id, '_fetchapp_sync', 'yes');
+					endif;
+				else:
+					$this->pushOrderToFetch($order, false); 
+
+					/* But then set that this order is in sync */
+					update_post_meta( $order_id, '_fetchapp_sync', 'yes');
+				endif;
+			endforeach;		
 		}
 
 		public function pullProductsFromFetch(){
@@ -301,7 +330,8 @@ if ( ! class_exists( 'WP_FetchAppBase' ) ) :
 
 		public function fetchapp_debug_validate($input){
 			$options = get_option('fetchapp_debug_mode');
-			$options['text_string'] = trim($input);
+
+			$options = trim($input);
 			return $options;
 		}
 
@@ -318,17 +348,17 @@ if ( ! class_exists( 'WP_FetchAppBase' ) ) :
 
 		public function fetchapp_debug_string() {
 			$options = get_option('fetchapp_debug_mode');
-			echo "<input id='fetchapp_debug_mode' name='fetchapp_debug_mode[text_string]' type='checkbox' value='1' ".checked($options['text_string'], 1, false)." />";
+			echo "<input id='fetchapp_debug_mode' name='fetchapp_debug_mode[text_string]' type='checkbox' value='1' ".checked($options, 1, false)." />";
 		}
 
 		public function fetchapp_scheduled_sync_string() {
 			$options = get_option('fetchapp_scheduled_sync');
-			echo "<input id='fetchapp_scheduled_sync' name='fetchapp_scheduled_sync[text_string]' type='checkbox' value='1' ".checked($options['text_string'], 1, false)." />";
+			echo "<input id='fetchapp_scheduled_sync' name='fetchapp_scheduled_sync[text_string]' type='checkbox' value='1' ".checked($options, 1, false)." />";
 		}
 
 		public function fetchapp_send_incomplete_orders_string() {
 			$options = get_option('fetchapp_send_incomplete_orders');
-			echo "<input id='fetchapp_send_incomplete_orders' name='fetchapp_send_incomplete_orders[text_string]' type='checkbox' value='1' ".checked($options['text_string'], 1, false)." />";
+			echo "<input id='fetchapp_send_incomplete_orders' name='fetchapp_send_incomplete_orders[text_string]' type='checkbox' value='1' ".checked($options, 1, false)." />";
 		}
 
 		/* Prints the box content */
