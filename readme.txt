@@ -33,11 +33,11 @@ This plugin provides integration between FetchApp and WooCommerce.
 = 1.0.4 =
 * We have made significant enhancements to the plugin to improve plugin stability and functionality. 
 * Bug Fixes:
-1. FetchApp emails should now be sending properly. We revised the WooCommerce hooks used for synchorization, and revised the default configuration for imported Products. 
-1. Products imported from FetchApp are now marked Virtual and Downloadable, to allow for automatic completion and fullfillment of orders.
-1. Orders marked as complete from the Orders list in WooCommerce are now immediately pushed to FetchApp and cause an email to be sent.  
-1. Orders marked as complete due to successful payment are now properly pushed to FetchApp, even if the confirmation page is not reached. 
-1. Various other bugfixes. 
+* FetchApp emails should now be sending properly. We revised the WooCommerce hooks used for synchorization, and revised the default configuration for imported Products. 
+* Products imported from FetchApp are now marked Virtual and Downloadable, to allow for automatic completion and fullfillment of orders.
+* Orders marked as complete from the Orders list in WooCommerce are now immediately pushed to FetchApp and cause an email to be sent.  
+* Orders marked as complete due to successful payment are now properly pushed to FetchApp, even if the confirmation page is not reached. 
+* Various other bugfixes. 
 
 = 1.0.2 =
 * Miscellaneous bug fixes.
