@@ -4,7 +4,7 @@ Plugin Name: FetchApp
 Plugin URI: http://www.fetchapp.com/
 Description: Fetch App Integration for WooCommerce
 Author: Patrick Conant
-Version: 1.0
+Version: 1.0.2
 Author URI: http://www.prcapps.com/
 */
 
@@ -200,7 +200,7 @@ if ( ! class_exists( 'WP_FetchAppBase' ) ) :
 
 		/* Admin Screen Functions */
 		public function register_fetchapp_menu_page(){
-		    add_menu_page( 'FetchApp Settings', 'FetchApp', 'manage_options', 'fetchapp_wc_settings', array($this, 'fetchapp_wc_settings_page'), plugins_url( 'fetchapp/images/logo.png' ), 58 ); 
+		    add_menu_page( 'FetchApp Settings', 'FetchApp', 'manage_options', 'fetchapp_wc_settings', array($this, 'fetchapp_wc_settings_page'), plugins_url( 'fetchapp-for-woocommerce/images/logo.png' ), 58 ); 
 		}
 
 		public function fetchapp_wc_settings_page(){			
