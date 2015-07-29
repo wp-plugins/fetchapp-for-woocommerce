@@ -4,7 +4,7 @@ Donate link: http://www.prcapps.com/
 Tags: fetchapp,woocommerce
 Requires at least: 3.6
 Tested up to: 3.9.1
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,7 +30,7 @@ This plugin provides integration between FetchApp and WooCommerce.
 
 == Changelog ==
 
-= 1.0.4 =
+= 1.0.5 =
 * We have made significant enhancements to the plugin to improve plugin stability and functionality. 
 * Bug Fixes:
 1. FetchApp emails should now be sending properly. We revised the WooCommerce hooks used for synchorization, and revised the default configuration for imported Products. 

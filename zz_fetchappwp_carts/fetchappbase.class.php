@@ -4,7 +4,7 @@ Plugin Name: FetchApp
 Plugin URI: http://www.fetchapp.com/
 Description: Fetch App Integration for WooCommerce
 Author: Patrick Conant
-Version: 1.0.4
+Version: 1.0.5
 Author URI: http://www.prcapps.com/
 */
 
@@ -28,6 +28,7 @@ if ( ! class_exists( 'WP_FetchAppBase' ) ) :
 			$this->debug = false;
 			$this->scheduled_sync = false;
 			$this->fetchapp_send_incomplete_orders = false;
+			$this->fetchapp_use_ssl = true;
 
 			// Default options
 			add_option( 'fetchapp_token', '' );
@@ -35,6 +36,7 @@ if ( ! class_exists( 'WP_FetchAppBase' ) ) :
 			add_option( 'fetchapp_debug_mode', 0);
 			add_option( 'fetchapp_scheduled_sync', 0);
 			add_option( 'fetchapp_send_incomplete_orders', 0);
+			add_option( 'fetchapp_use_ssl', 1);
 
 
 			if ( get_option( 'fetchapp_key' ) ):
@@ -52,6 +54,13 @@ if ( ! class_exists( 'WP_FetchAppBase' ) ) :
 
 				if(isset($debug_option)):
 					$this->debug = $debug_option;
+				endif;
+			endif;
+
+			if ( get_option( 'fetchapp_use_ssl' ) ):
+				$fetchapp_ssl_option = get_option( 'fetchapp_use_ssl' );
+				if(isset($fetchapp_ssl_option)):
+					$this->fetchapp_use_ssl = $fetchapp_ssl_option;
 				endif;
 			endif;
 
@@ -77,6 +86,8 @@ if ( ! class_exists( 'WP_FetchAppBase' ) ) :
 
 			$this->fetchApp->setAuthenticationKey($this->fetch_key);
 			$this->fetchApp->setAuthenticationToken($this->fetch_token);
+
+			$this->fetchApp->setSSLMode($this->fetchapp_use_ssl);
 
 			$this->message = false;
 			$this->error = false;
@@ -261,6 +272,12 @@ if ( ! class_exists( 'WP_FetchAppBase' ) ) :
 					update_option('fetchapp_send_incomplete_orders', '0');
 				endif;
 
+				if(isset($_POST['fetchapp_use_ssl']) && $_POST['fetchapp_use_ssl']):
+					update_option('fetchapp_use_ssl', '1');
+				else:
+					update_option('fetchapp_use_ssl', '0');
+				endif;
+
 				$this->message = "Settings Updated";
 				$this->showMessage("Settings Updated");
 				// TODO: Validate Key / Token
@@ -296,6 +313,8 @@ if ( ! class_exists( 'WP_FetchAppBase' ) ) :
 			register_setting( 'fetchapp_debug_mode', 'fetchapp_debug_mode', array($this, 'fetchapp_debug_validate') );
 			register_setting( 'fetchapp_scheduled_sync', 'fetchapp_scheduled_sync', array($this, 'fetchapp_debug_validate') );
 			register_setting( 'fetchapp_send_incomplete_orders', 'fetchapp_send_incomplete_orders', array($this, 'fetchapp_debug_validate') );
+			register_setting( 'fetchapp_use_ssl', 'fetchapp_use_ssl', array($this, 'fetchapp_use_ssl_validate') );
+
 
 			add_settings_section('fetchapp_authentication', 'Authentication', array($this, 'plugin_section_text'), 'fetchapp_wc_settings');
 			add_settings_field('fetchapp_key', 'FetchApp API Key', array($this, 'fetchapp_key_string'), 'fetchapp_wc_settings', 'fetchapp_authentication');
@@ -309,6 +328,9 @@ if ( ! class_exists( 'WP_FetchAppBase' ) ) :
 
 			add_settings_section('fetchapp_send_incomplete_orders_section', 'Order Status', array($this, 'plugin_section_text'), 'fetchapp_wc_settings');
 			add_settings_field('fetchapp_send_incomplete_orders', 'Push incomplete orders to FetchApp', array($this, 'fetchapp_send_incomplete_orders_string'), 'fetchapp_wc_settings', 'fetchapp_send_incomplete_orders_section');
+
+			add_settings_section('fetchapp_use_ssl_header', 'SSL', array($this, 'plugin_section_text'), 'fetchapp_wc_settings');
+			add_settings_field('fetchapp_use_ssl', 'Use SSL to connect to FetchApp', array($this, 'fetchapp_use_ssl_string'), 'fetchapp_wc_settings', 'fetchapp_use_ssl_header');
 
 		}
 		
@@ -335,6 +357,13 @@ if ( ! class_exists( 'WP_FetchAppBase' ) ) :
 			return $options;
 		}
 
+		public function fetchapp_use_ssl_validate($input){
+			$options = get_option('fetchall_use_ssl');
+
+			$options = trim($input);
+			return $options;
+		}
+
 		public function fetchapp_key_string() {
 			$options = get_option('fetchapp_key');
 			echo "<input id='fetchapp_key_string' name='fetchapp_key[text_string]' size='40' type='text' value='{$options['text_string']}' />";
@@ -349,6 +378,11 @@ if ( ! class_exists( 'WP_FetchAppBase' ) ) :
 		public function fetchapp_debug_string() {
 			$options = get_option('fetchapp_debug_mode');
 			echo "<input id='fetchapp_debug_mode' name='fetchapp_debug_mode[text_string]' type='checkbox' value='1' ".checked($options, 1, false)." />";
+		}
+
+		public function fetchapp_use_ssl_string() {
+			$options = get_option('fetchapp_use_ssl');
+			echo "<input id='fetchapp_use_ssl' name='fetchapp_use_ssl[text_string]' type='checkbox' value='1' ".checked($options, 1, false)." />";
 		}
 
 		public function fetchapp_scheduled_sync_string() {
